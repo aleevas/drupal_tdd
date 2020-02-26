@@ -1,0 +1,7 @@
+upload_books.settings_form:
+  path: '/admin/config/system/upload-books'
+  defaults:
+    _title: 'Upload books settings'
+    _form: 'Drupal\upload_books\Form\SettingsForm'
+  requirements:
+    _permission: 'administer upload_books configuration'

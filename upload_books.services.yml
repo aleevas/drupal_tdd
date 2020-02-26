@@ -1,0 +1,3 @@
+services:
+  upload_books.csv_validator:
+    class: \Drupal\upload_books\CsvValidator

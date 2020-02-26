@@ -1,0 +1,26 @@
+<?php
+/**
+ * @file
+ * Module hooks and callbacks.
+ */
+
+use Drupal\file\FileInterface;
+
+/**
+ * File validation callback.
+ *
+ * Check the CSV is in the correct format, using commas as a separator, and
+ * with at least 2 columns per row.
+ *
+ * @see file_validate()
+ *
+ * @param \Drupal\file\FileInterface $file
+ *     The file to be validated.
+ *
+ * @return array
+ *     List of validation issues, if any.
+ */
+
+function upload_books_validate_csv(FileInterface $file) {
+  return \Drupal::service('upload_books.csv_validator')->validate($file);
+}
