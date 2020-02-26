@@ -15,24 +15,39 @@ class CsvValidator {
   use StringTranslationTrait;
 
   /**
-   * Validate a CSV file.
-   *
-   * Check the CSV is in the correct format, using commas as a separator, and
-   * with at least 2 columns per row.
+   * Helper method to parse a CSV file.
    *
    * @param \Drupal\file\FileInterface $file
-   *     The file to be validated.
+   *   The CSV file.
    *
    * @return array
-   *     List of validation issues, if any.
+   *   The CSV data.
    */
-  public function validate(FileInterface $file) {
+  public function parseFile(FileInterface $file) {
     $rows = [];
     $fh = fopen($file->getFileUri(), 'r');
     while ($row = fgetcsv($fh)) {
       $rows[] = $row;
     }
     fclose($fh);
+    return $rows;
+  }
+
+  /**
+   * Validate a CSV file.
+   *
+   * Check the CSV is in the correct format, using commas as a separator, and
+   * with at least 2 columns per row.
+   *
+   * @param \Drupal\file\FileInterface $file
+   *   The file to be validated.
+   *
+   * @return array
+   *   List of validation issues, if any.
+   */
+  public function validate(FileInterface $file) {
+    $rows = $this->parseFile($file);
+
     // Analyze the file format. We should get 2 columns.
     $row = array_shift($rows);
     if (empty($row) || count($row) < 2) {
@@ -41,12 +56,13 @@ class CsvValidator {
       ];
     }
 
-    // Each row should have at least 2 columns, and the 1st columns cannot be empty.
+    // Each row should have at least 2 columns, and 1st column cannot be empty.
     $i = 0;
     $errors = [];
     while ($row = array_shift($rows)) {
       $i++;
-      @list($title, $author) = $row;
+      $title = isset($row[0]) ? $row[0] : NULL;
+      $author = isset($row[1]) ? $row[1] : NULL;
       if (empty($title)) {
         $errors[] = $this->t("The book title on line @line is empty. You must provide a title for each book.", ['@line' => $i]);
       }
