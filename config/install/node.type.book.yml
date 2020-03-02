@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies: {}
+name: Book
+type: book
+description: A book entity.
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: true
+

@@ -1,0 +1,29 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.book
+    - field.storage.node.book_author
+    - taxonomy.vocabulary.book_authors
+id: node.book.book_author
+field_name: book_author
+entity_type: node
+bundle: book
+label: Author
+description: The author(s) of the book
+required: true
+field_type: entity_reference
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      authors: book_authors
+    sort:
+      field: name
+      direction: asc
+    auto_create: true
+    auto_create_bundle: ''
+translatable: false
+default_value: {  }
+default_value_callback: ''
+

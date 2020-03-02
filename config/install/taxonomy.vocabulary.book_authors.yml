@@ -1,0 +1,5 @@
+langcode: en
+status: true
+name: Authors
+vid: book_authors
+dependencies: {}
