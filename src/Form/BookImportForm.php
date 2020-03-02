@@ -62,6 +62,13 @@ class BookImportForm extends FormBase {
       '#required' => TRUE,
     ];
 
+    if (\Drupal::currentUser()->hasPermission('administer books')) {
+      $form['reset'] = [
+        '#type' => 'checkbox',
+        '#title' => $this->t("Reset all books"),
+      ];
+    }
+
     $form['actions']['#type'] = 'actions';
     $form['actions']['submit'] = [
       '#type' => 'submit',

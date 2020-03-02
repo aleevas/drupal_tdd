@@ -1,0 +1,6 @@
+administer books:
+  title: Administer books
+  restrict access: true
+
+import books:
+  title: Import books
