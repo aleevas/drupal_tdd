@@ -5,9 +5,6 @@ namespace Drupal\upload_books\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\file\Entity\File;
-use Drupal\node\Entity\Node;
-use Drupal\taxonomy\Entity\Term;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -37,7 +34,8 @@ class BookImportForm extends FormBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('current_user')
+      $container->get('current_user'),
+      $container->get('email.validator')
     );
   }
 
@@ -69,6 +67,11 @@ class BookImportForm extends FormBase {
       ];
     }
 
+    $form['email'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t("User email"),
+    ];
+
     $form['actions']['#type'] = 'actions';
     $form['actions']['submit'] = [
       '#type' => 'submit',
@@ -84,6 +87,11 @@ class BookImportForm extends FormBase {
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
     parent::validateForm($form, $form_state);
+    $email = $form_state->getValue('email');
+    $is_valid = \Drupal::service('email.validator')->isValid($email);
+    if (!$is_valid) {
+      $form_state->setErrorByName('email', $this->t("This email is not valid."));
+    }
   }
 
   /**
