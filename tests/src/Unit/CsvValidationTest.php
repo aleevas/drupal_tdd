@@ -6,9 +6,8 @@ use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\file\FileInterface;
-use Drupal\Tests\PhpunitCompatibilityTrait;
 use Drupal\Tests\UnitTestCase;
-use Drupal\upload_books\CsvValidator;
+use Drupal\upload_books\CsvParser;
 
 /**
  * @group form_validation_example
@@ -23,15 +22,13 @@ class CsvValidationTest extends UnitTestCase {
   public function setUp() {
     parent::setUp();
     require_once __DIR__ . '/../../../upload_books.module';
-//
     $container = new ContainerBuilder();
-//
-    $validator = new CsvValidator();
+
+    $validator = new CsvParser();
     $container->set('upload_books.csv_validator', $validator);
-//
+
     $translations = $this->createMock(TranslationInterface::class);
     $container->set('string_translation', $translations);
-//
     \Drupal::setContainer($container);
   }
 

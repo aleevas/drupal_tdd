@@ -10,7 +10,7 @@ use Drupal\file\FileInterface;
  *
  * @package Drupal\upload_books
  */
-class CsvValidator {
+class CsvParser {
 
   use StringTranslationTrait;
 
